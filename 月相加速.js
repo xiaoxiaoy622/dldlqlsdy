@@ -227,8 +227,8 @@
         '.moon-error-toast.visible{opacity:1}',
         '.moon-open-button:focus-visible{box-shadow:0 0 0 3px #667eea,0 4px 14px rgba(30,60,114,0.6)}',
         '.moon-open-button span.small{font-size:15px}',
-        '@media(min-width:768px){.moon-view .speed-btn{height:44px}}',
-        '@media(max-width:767px){.moon-view .speed-grid{gap:5px}.moon-view{width:260px}}',
+        '@media(min-width:768px){.moon-view .speed-btn{height:40px}}',
+        '@media(max-width:767px){.moon-view .speed-grid{gap:5px}.moon-view{width:260px}.moon-open-button{width:44px;height:44px}.moon-open-button::before{font-size:22px}.moon-open-button span{font-size:14px;margin-top:2px}.moon-open-button::after{width:52px;height:52px;top:-5px;left:-5px}.moon-open-button span.small{font-size:11px}.moon-view .speed-btn{height:40px}.moon-view .current-value span{font-size:28px}.moon-view .reset-btn{height:44px}}',
         '@media(prefers-reduced-motion:reduce){.moon-open-button{animation:none}.moon-view{transition:none}.moon-status-indicator,.moon-error-toast{transition:none}}'
     ];
 
@@ -465,7 +465,7 @@
                     e.preventDefault(); e.stopPropagation();
                     var vpW = window.innerWidth;
                     var vpH = window.innerHeight;
-                    var ballW = 60;
+                    var ballW = vpW <= 767 ? 44 : 60;
                     var snapX = _ballOffX + ballW / 2 < vpW / 2 ? 0 : vpW - ballW;
                     if (Math.abs(_ballOffX - snapX) > 5) _ballOffX = snapX;
                     if (_ballOffY < 0) _ballOffY = 0;
