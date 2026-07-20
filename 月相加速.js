@@ -158,18 +158,17 @@
     }
 
     function _applySpeed(speed) {
+        var realNow = _origDateNow();
         if (speed === 1) {
-            var realNow = _origDateNow();
-            _lastVirtualTime = realNow;
+            _lastVirtualTime = _hookedDateNow();
             _lastRealTime = realNow;
             _percentage = 1.0;
             _invPercentage = 1.0;
-            removeHooks();
+            percentageChangeHandler(1.0);
             return;
         }
         installHooks();
-        var realNow = _origDateNow();
-        _lastVirtualTime = _lastVirtualTime + (realNow - _lastRealTime) * _invPercentage;
+        _lastVirtualTime = _hookedDateNow();
         _lastRealTime = realNow;
         var newPercentage = 1 / speed;
         percentageChangeHandler(newPercentage);
