@@ -220,7 +220,8 @@
         '.moon-view .reset-btn{margin:4px 12px 12px;height:40px;background:linear-gradient(90deg,#2193b0,#6dd5ed);border:none;color:#fff;font-size:14px;font-weight:800;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;letter-spacing:0.5px;box-shadow:0 3px 10px rgba(33,147,176,0.4);user-select:none;transition:filter 0.15s,transform 0.15s}',
         '.moon-view .reset-btn:active{filter:brightness(0.85);transform:scale(0.98)}',
         '.moon-view .persist-toggle{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 12px 12px;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;font-size:11px;color:#a8b2d1}',
-        '.moon-view .persist-toggle input[type=checkbox]{width:16px;height:16px;accent-color:#667eea}',
+        '.moon-view .persist-toggle label{display:flex;align-items:center;gap:6px;cursor:pointer}',
+        '.moon-view .persist-toggle input[type=checkbox]{width:16px;height:16px;accent-color:#667eea;margin:0}',
         '.moon-status-indicator{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateZ(0);z-index:2147483646;background:rgba(30,60,114,0.95);color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:bold;border:1px solid rgba(255,255,255,0.2);pointer-events:none;opacity:0;transition:opacity 0.3s}',
         '.moon-status-indicator.visible{opacity:1}',
         '.moon-error-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(220,53,69,0.95);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:2147483647;opacity:0;pointer-events:none;transition:opacity 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.3);text-align:center;max-width:80%}',
@@ -421,7 +422,7 @@
         });
 
         (function (el) {
-            var _sx = null, _sy = null, _isDrag = false;
+            var _sx = null, _sy = null, _isDrag = false, _dragPreventClick = false;
             var _rafId = 0;
             var _pendingX = 0, _pendingY = 0;
 
@@ -461,6 +462,7 @@
                 document.removeEventListener('mousemove', _move);
                 document.removeEventListener('mouseup', _end);
                 if (_isDrag) {
+                    _dragPreventClick = true;
                     e.preventDefault(); e.stopPropagation();
                     var vpW = window.innerWidth;
                     var vpH = window.innerHeight;
@@ -491,6 +493,7 @@
 
             var _clickTimer2 = 0;
             el.addEventListener('click', function (e) {
+                if (_dragPreventClick) { _dragPreventClick = false; return; }
                 if (_isDrag) { e.stopPropagation(); return; }
                 e.preventDefault();
                 if (_clickTimer2) {
