@@ -228,7 +228,7 @@
         '.moon-open-button:focus-visible{box-shadow:0 0 0 3px #667eea,0 4px 14px rgba(30,60,114,0.6)}',
         '.moon-open-button span.small{font-size:15px}',
         '@media(min-width:768px){.moon-view .speed-btn{height:40px}}',
-        '@media(max-width:767px){.moon-view .speed-grid{gap:5px}.moon-view{width:260px}.moon-open-button{width:44px;height:44px}.moon-open-button::before{font-size:22px}.moon-open-button span{font-size:14px;margin-top:2px}.moon-open-button::after{width:52px;height:52px;top:-5px;left:-5px}.moon-open-button span.small{font-size:11px}.moon-view .speed-btn{height:40px}.moon-view .current-value span{font-size:28px}.moon-view .reset-btn{height:44px}}',
+        '@media(max-width:767px){.moon-view .speed-grid{gap:5px}.moon-view{width:260px}.moon-open-button{width:clamp(32px,10vw,46px);height:clamp(32px,10vw,46px)}.moon-open-button::before{font-size:clamp(16px,5.2vw,24px)}.moon-open-button span{font-size:clamp(10px,3.2vw,14px);margin-top:clamp(0px,0.8vw,3px)}.moon-open-button::after{width:calc(clamp(32px,10vw,46px) + 8px);height:calc(clamp(32px,10vw,46px) + 8px);top:-4px;left:-4px}.moon-open-button span.small{font-size:clamp(8px,2.5vw,11px)}.moon-view .speed-btn{height:40px}.moon-view .current-value span{font-size:28px}.moon-view .reset-btn{height:44px}}',
         '@media(prefers-reduced-motion:reduce){.moon-open-button{animation:none}.moon-view{transition:none}.moon-status-indicator,.moon-error-toast{transition:none}}'
     ];
 
@@ -304,14 +304,13 @@
         function _openPanel() {
             if (_closeTimerId) { _origClearTimeout.call(window, _closeTimerId); _closeTimerId = 0; }
             if (_panelRafId) { cancelAnimationFrame(_panelRafId); _panelRafId = 0; }
-            var ballX = 15 + _ballOffX;
-            var ballY = 25 + _ballOffY;
+            var ballRect = _ball.getBoundingClientRect();
             var vpW = window.innerWidth;
             var vpH = window.innerHeight;
-            var pLeft = ballX;
+            var pLeft = ballRect.left;
             if (pLeft + 280 > vpW - 10) pLeft = vpW - 290;
             if (pLeft < 10) pLeft = 10;
-            var pTop = ballY + 70;
+            var pTop = ballRect.bottom + 8;
             _panel.style.left = pLeft + 'px';
             _panel.style.top = pTop + 'px';
             _panel.style.display = 'block';
@@ -465,7 +464,7 @@
                     e.preventDefault(); e.stopPropagation();
                     var vpW = window.innerWidth;
                     var vpH = window.innerHeight;
-                    var ballW = vpW <= 767 ? 44 : 60;
+                    var ballW = el.offsetWidth || 60;
                     var snapX = _ballOffX + ballW / 2 < vpW / 2 ? 0 : vpW - ballW;
                     if (Math.abs(_ballOffX - snapX) > 5) _ballOffX = snapX;
                     if (_ballOffY < 0) _ballOffY = 0;
